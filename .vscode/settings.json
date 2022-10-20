@@ -1,3 +1,4 @@
 {
-	"cSpell.words": ["mycanvas", "mycontent"]
+	"cSpell.words": ["mycanvas", "mycontent", "mydiv", "mypath"],
+	"svg.preview.background": "custom"
 }
