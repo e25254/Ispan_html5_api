@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.box{
+				width: 600px;
+				margin: 0 auto;
+				display: flex;
+				flex-direction: column;
+			}
+			#msg {
+				box-sizing: border-box;
+				width: 100%;
+			}
+			#info{
+				margin-bottom: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="box">
+			<textarea readonly id="info" cols="50" rows="25"></textarea>
+			<form onsubmit="sendMsg() ; return false">
+				<input type="text" name="" id="msg" />
+				<button hidden >送出</button>
+			</form>
+		</div>
+		<script>
+			const msg = document.querySelector("#msg");
+			const info = document.querySelector("#info");
+			let someone_name = prompt("請輸入你的名稱");
+
+			// let socket = new WebSocket("ws://192.168.35.200:5000");	// 老師的
+			let socket = new WebSocket("ws://localhost:3000"); // 自己的
+			socket.addEventListener("open", (e) => {
+				console.log("---已連線---");
+				socket.send(someone_name);
+				info.innerHTML += "---已連線---" + "\n";
+			});
+			socket.addEventListener("message", (e) => {
+				info.innerHTML += e.data + "\n";
+			});
+
+			function sendMsg() {
+				socket.send(msg.value);
+				msg.value = "";
+			}
+		</script>
+	</body>
+</html>
