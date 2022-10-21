@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+        <style>
+            .box{
+                width: 60%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: auto auto;
+            }
+            #info{
+                height: 200px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                font-size: 50px;
+            }
+        </style>
+	</head>
+	<body>
+        <div class="box">
+            <div id="info" class="autobg"></div>
+        </div>
+		
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script>
+			const info = document.querySelector("#info");
+			const es = new EventSource("/try-sse");
+
+			es.addEventListener("open", (e) => {
+				info.style.background = `linear-gradient(135deg, rgba(${getRandomInt(256)},${getRandomInt(256)},${getRandomInt(256)},.5), rgba(${getRandomInt(256)},${getRandomInt(256)},${getRandomInt(256)},.8)`;
+			});
+			es.addEventListener("message", (e) => {
+                info.style.background = `linear-gradient(135deg, rgba(${getRandomInt(256)},${getRandomInt(256)},${getRandomInt(256)},.5), rgba(${getRandomInt(256)},${getRandomInt(256)},${getRandomInt(256)},.8)`;
+				info.innerHTML = e.lastEventId + ":" + e.data;
+			});
+			es.addEventListener("error", (e) => {
+				console.log(e);
+			});
+		</script>
+		<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+		<script>
+			function getRandomInt(max) {
+				return Math.floor(Math.random() * Math.floor(max - 50) + 100);
+			}
+
+			function getRBGA() {
+				return `linear-gradient(135deg, rgba(${getRandomInt(256)},${getRandomInt(256)},${getRandomInt(256)},.5), rgba(${getRandomInt(256)},${getRandomInt(256)},${getRandomInt(256)},.8)`;
+			}
+
+			const elements = document.querySelectorAll(".autobg");
+
+			Array.from(elements).forEach((element, index) => {
+				element.style.backgroundImage = getRBGA();
+			});
+
+			// $('.autobg').each(function (index, currentElement) {
+			//     currentElement.style.backgroundImage = getRBGA();
+			// });
+		</script>
+	</body>
+</html>
